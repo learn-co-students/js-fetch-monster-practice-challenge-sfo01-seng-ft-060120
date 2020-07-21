@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchAllMonsters(pageNumber)
     newMonsterForm()
 
-    // const forwardButton = document.querySelector('#forward')
-    // forwardButton.addEventListener('click', (e) => moveForward(e))
+    const forwardButton = document.querySelector('#forward')
+    forwardButton.addEventListener('click', (e) => moveForward(e))
 
     const backwardButton = document.querySelector('#back')
     backwardButton.addEventListener('click', (e) => moveBackward(e))
@@ -52,9 +52,9 @@ const showAllMonsters = (monster) => {
         <p>${monster.description}</p>
     `
 
-    const editButton = document.createElement('button')
-    editButton.innerHTML = "EDIT"
-    editButton.addEventListener('click', (e) => editMonster(e, monster))
+    // const editButton = document.createElement('button')
+    // editButton.innerHTML = "EDIT"
+    // editButton.addEventListener('click', (e) => editMonster(e, monster))
 
     const deleteButton = document.createElement('button')
     deleteButton.innerHTML = "DELETE"
