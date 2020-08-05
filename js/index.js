@@ -1,16 +1,27 @@
 // For elements that I want global
-const monsterPage = 'http://localhost:3000/monsters/?_limit=30&_page=1'
+let n = 1 //this will be used for http pages
+
+const monsterPage = `http://localhost:3000/monsters/?_limit=30&_page=${n}`
 const monsterURL = `http://localhost:3000/monsters`
+const monsterContainer = document.getElementById('monster-container') //monster container
+
+// forward & back buttons
+const forward = document.querySelector('#forward')
+const back = document.querySelector('#back')
 
 
 // GET request monsters
+const monsterPages = (n) => {
+monsterContainer.innerHTML = ''
 fetch(monsterPage)
 .then(res => res.json())
 .then(json => json.forEach(monster => BuildMonster(monster))) //this is an array, we must user forEach 
+}
+monsterPages(n)
+
 
 // BuildMonster
 const BuildMonster = (monster) => {
-  // const monsterContainer = document.getElementById('monster-container') //monster container
   const monsterCard = document.querySelector('.monster-card') //monster card
   
   monsterCard.innerHTML += `
@@ -20,24 +31,6 @@ const BuildMonster = (monster) => {
             <p>${monster.description}</p>
             </div>
             `
-
-//   const monsterName = document.createElement('h3')
-//   monsterName.innerText = `${monster.name}`
-//   monsterName.id = `${monster.id}`
-//   const monsterAge = document.createElement('h6')
-//   monsterAge.innerText = `${monster.age}`
-
-//  const monsterDescription = document.createElement('p')
-//   monsterDescription.innerText = `${monster.description}`
-
-// append here
-// monsterContainer.appendChild(monsterCard)
-// monsterCard.appendChild(monsterName)
-// monsterName.appendChild(monsterAge)
-// monsterAge.appendChild(monsterDescription)
-
-listenForCreate()
-
 }
 
 // EventListener for create monster button
@@ -47,6 +40,7 @@ const listenForCreate = () => {
 // debugger
   // console.log(monsterForm)
 }
+listenForCreate()
 
 // POST request to 
   const postNewMonster = (e) => {
@@ -66,10 +60,36 @@ const listenForCreate = () => {
   body: JSON.stringify(data)
   })
   .then(res => res.json())
-  .then(json => {console.log(json)
+  .then(json => {
+    // console.log(json)
     BuildMonster(json)
   })
-  // debugger
     }
-// // console.log(data)
 
+
+    // forward & back event listeners
+
+    const navigationBtn = () => {
+      back.addEventListener('click', () =>{
+        pageForward(false)
+      })
+      forward.addEventListener('click', () =>{
+        pageForward(true)
+      })
+    }
+    navigationBtn()
+
+    const pageForward = (forward) => {
+      console.log(forward)
+      if(forward) {
+      n ++
+      monsterPages(n)
+    } else {
+      if(n === 1){
+        alert ('no monsters on this page')
+      } else {
+        n --
+        monsterPages(n)
+      }
+    }
+  }
